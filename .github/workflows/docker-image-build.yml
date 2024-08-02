@@ -4,16 +4,20 @@ on:
   pull_request:
     branches:
     - main
+  workflow_dispatch:
+
+env:
+  AZURE_ACR_NAME: manualacr.azurecr.io
+  AZURE_ACR_USERNAME: {{secrets.AZURE_ACR_USER}}
+  AZURE_ACR_PASSWORD: {{secrets.AZURE_ACR_PASSWORD}}
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run:         
-        docker build . --file WebApp.Dockerfile --tag sampleappaoaichatgpt.azurecr.io/sample-app-aoai-chatgpt:$(date +'%Y-%m-%d')_$GITHUB_RUN_NUMBER
+      run:
+        docker build . --file WebApp.Dockerfile --tag  AZURE_ACR_NAME.azurecr.io/sample-app-aoai-chatgpt:$(date +'%Y-%m-%d')_$GITHUB_RUN_NUMBER
       
